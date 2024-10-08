@@ -47,14 +47,15 @@ jobs:
           npm run pack:mac
           npx rimraf --glob "release/!(*.dmg)"
 
-      - name: Build Electron App for Linux
-        if: matrix.os == 'ubuntu-latest'
-        env:
-          GH_TOKEN: ${{ secrets.SECRET }}
-        run: |
-          sudo snap install snapcraft --classic 
-          npm run pack:linux
-          npx rimraf --glob "release/!(*.deb)"
+      # - name: Build Electron App for Linux
+      #   if: matrix.os == 'ubuntu-latest'
+      #   env:
+      #     GH_TOKEN: ${{ secrets.SECRET }}
+      #     SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+      #   run: |
+      #     sudo snap install snapcraft --classic 
+      #     npm run pack:linux
+      #     npx rimraf --glob "release/!(*.deb)"
 
       - name: upload artifacts
         uses: actions/upload-artifact@v3.0.0

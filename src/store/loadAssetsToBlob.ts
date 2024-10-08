@@ -58,7 +58,8 @@ export const useLoaderAssets = defineStore("loader-assets-to-blobs", {
             this.tmpSet.add(str);
         },
         getAssets(str: string) {
-            return this.blobMap.get(str);
+            const url = this.blobMap.get(str)
+            return url ? url : "";
         },
         startLoad() {
             if(this.isRunning) {
