@@ -3,7 +3,7 @@ interface BaseQues {
     readonly title: string;
     readonly id?: string;
     readonly disabled?: boolean;
-    readonly require?: boolean;
+    readonly required?: boolean;
 }
 
 // 基础填空题
