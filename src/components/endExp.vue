@@ -1,7 +1,11 @@
+<script setup lang="ts">
+const emits = defineEmits(["endTrial"]);
+</script>
+
 <template>
-    <div class="end-exp">
+    <div class="end-exp" @click="emits('endTrial');">
         <div class="content-box">
-            实验结束
+            <div>实验结束</div>
             <slot></slot>
         </div>
         <div class="footer">
@@ -13,6 +17,7 @@
 <style scoped>
 .end-exp {
     text-align: center;
+    cursor: pointer;
 }
 .end-exp .content-box {
     font-size: 48px;

@@ -17,7 +17,8 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useCheckBrowserInfo } from "../../store/browserCheck";
+import { useCheckBrowserInfo } from "../store/browserCheck";
+
 const cbi = useCheckBrowserInfo();
 const { browser } = storeToRefs(cbi);
 </script>
