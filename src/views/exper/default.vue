@@ -57,7 +57,12 @@ timeline.push({
     stimulus: "<div id='box'></div>",
     on_load() {
         render(h(questionnaire, {
-            ques: undefined,
+            ques: [
+                { name: "aa1", quesType: "text", title: "6666", placeholder: "请输入需要的文本", valid: [{ required: true }] },
+                { name: "aa2", quesType: "radio", title: "测试单选题", choices: ["1", "2"] },
+                { name: "aa3", quesType: "checkbox", title: "测试多选题", choices: ["1", "2"] },
+                { name: "aa4", quesType: "switch", title: "测试选项卡", choices: ["1", "2"] },
+            ],
             onEndTrial(data) {
                 console.log(data);
                 // jsPsych.finishTrial(data);

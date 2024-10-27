@@ -1,9 +1,12 @@
+import type { FormItemRule } from 'element-plus'
+
 interface BaseQues {
     readonly name: string;
     readonly title: string;
     readonly id?: string;
     readonly disabled?: boolean;
     readonly required?: boolean;
+    readonly valid?: FormItemRule[]
 }
 
 // 基础填空题
