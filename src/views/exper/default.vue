@@ -29,7 +29,9 @@ const timeline: object[] = [{
         // 初始化代码放这里
         if (!loader.isInit) {
             // 进行加载，同时避免vue的热更新
-            loader.addAssets("./logo.svg");
+            loader.addAssets("./assets/logo/logo.svg");
+            loader.addAssets("./assets/logo/logo_64_64.png");
+            loader.addAssets("./assets/logo/logo_128_128.png");
         }
         loader.startLoad();
 
@@ -76,10 +78,11 @@ timeline.push({
     choices: ["NO_KEYS"],
     stimulus: "<div id='box'></div>",
     on_load() {
+        const uuid = getUuid();
         jsPsych.data.write(cbi.browser);
         render(h(endExp, {
             onEndTrial() {
-                new Session().offlineSave(jsPsych.data.get().csv(), getUuid());
+                new Session().offlineSave(jsPsych.data.get().csv(), uuid);
             }
         }), document.querySelector("#box") as Element);
     }
