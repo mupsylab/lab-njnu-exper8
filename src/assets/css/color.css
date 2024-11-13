@@ -196,13 +196,13 @@
 }
 
 .light {
-    --dashboard-background: var(--light-idegrey-1);
+    --dashboard-background: grey;
     --dashboard-layout: var(--light-idegrey-4);
 
     --dashboard-dividing: var(--light-idegrey-2);
     --dashboard-dividing-component: var(--light-opacity-idegrey-25);
 
-    --font-color: var(--light-idegrey-9);
+    --font-color: #fff;
     --font-high-light: var(--light-idegrey-10);
     --font-desc: var(--light-idegrey-7);
     --font-invalid: var(--light-idegrey-6);

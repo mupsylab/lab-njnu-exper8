@@ -6,10 +6,9 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
+      path: "/exper/:type",
       name: "jspsych",
-      component: experDefault,
-      alias: "/exper"
+      component: experDefault
     },
     {
       path: "/:pathMatch(.*)*",

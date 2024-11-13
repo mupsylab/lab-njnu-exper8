@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
+
 const emits = defineEmits(["endTrial"]);
+onMounted(() => {
+    emits('endTrial');
+});
 </script>
 
 <template>

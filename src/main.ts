@@ -4,7 +4,7 @@ import '@/assets/css/style.css';
 
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-import 'element-plus/theme-chalk/dark/css-vars.css';
+// import 'element-plus/theme-chalk/dark/css-vars.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -22,5 +22,5 @@ app.use(router);
 app.mount('#app');
 
 const cs = useColorScheme();
-cs.switch("dark");
+cs.switch("light");
 document.body.parentElement?.classList.add(cs.currScheme);

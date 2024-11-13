@@ -54,22 +54,20 @@ const formRef = ref<FormInstance>();
         <ElForm ref="formRef" status-icon :rules="rules" :model="form" @submit.prevent label-position="top" size="default">
             <template v-for="ques in propQues">
                 <ElFormItem :prop="ques.name">
+                    <div class="title">{{ ques.title }}</div>
                     <template v-if="ques.quesType == 'text'">
-                        <div>{{ ques.title }}</div>
                         <ElInput :name="ques.name" :readonly="ques.readonly ?? false"
                             :show-password="ques.showPassword ?? false" :placeholder="ques.placeholder"
                             v-model="form[ques.name]" />
                     </template>
                     <template v-if="ques.quesType == 'radio'">
-                        <div>{{ ques.title }}</div>
                         <ElRadioGroup v-model="form[ques.name]">
                             <div v-for="choice, i in ques.choices">
-                                <ElRadio :value="choice" :label="choice" />
+                                <ElRadio style="--el-radio-font-size: 24px;" :value="choice" :label="choice" />
                             </div>
                         </ElRadioGroup>
                     </template>
                     <template v-if="ques.quesType == 'checkbox'">
-                        <div>{{ ques.title }}</div>
                         <ElCheckboxGroup v-model="form[ques.name]">
                             <div v-for="choice, i in ques.choices">
                                 <ElCheckbox :value="choice" :label="choice" />
@@ -77,7 +75,6 @@ const formRef = ref<FormInstance>();
                         </ElCheckboxGroup>
                     </template>
                     <template v-if="ques.quesType == 'switch'">
-                        <div>{{ ques.title }}</div>
                         <ElSelect v-model="form[ques.name]">
                             <ElOption v-for="choice, i in ques.choices" :label="choice" :value="choice"></ElOption>
                         </ElSelect>
@@ -99,11 +96,22 @@ const formRef = ref<FormInstance>();
     text-align: left;
     user-select: none;
 }
+
+.questionnaire .title {
+    height: 48px;
+    font-size: 24px;
+    line-height: 1.5em;
+}
 </style>
 
 <style>
-.el-form-item__content,
 .el-radio-group {
-    display: block;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.el-radio {
+    color: var(--font-color);
 }
 </style>
