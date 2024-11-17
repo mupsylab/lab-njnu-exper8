@@ -167,7 +167,7 @@ timeline.push({
     on_load() {
         render(h(ques, {
             questionId: "q1",
-            questionTitle: "请你对下列词的熟悉程度进行评分",
+            questionTitle: "",
             questionSubTitle: ["请你对“老道”一词的熟悉程度进行评分", "请你对“老到”一词的熟悉程度进行评分"],
             questionSelectText: ["非常不熟悉", "比较不熟悉", "有点不熟悉", "一般熟悉", "有点熟悉", "比较熟悉", "非常熟悉"],
             onEndTrial(data: { [key: string]: String }) {
