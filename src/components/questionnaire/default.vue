@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ElButton, ElForm, ElSelect, ElOption, ElFormItem, ElInput, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElDivider } from "element-plus";
+import { ElButton, ElForm, ElSelect, ElOption, ElFormItem, ElInput, ElRadioGroup, ElRadio, ElCheckboxGroup, ElCheckbox, ElDivider, ElDatePicker, ElConfigProvider } from "element-plus";
 import type { FormInstance, FormRules, FormItemRule } from 'element-plus'
 import { reactive, ref, toRaw } from "vue";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+const locale = zhCn;
 
 import { Ques, quesAnswerType } from "./default";
 
@@ -62,22 +64,32 @@ const formRef = ref<FormInstance>();
                     </template>
                     <template v-if="ques.quesType == 'radio'">
                         <ElRadioGroup v-model="form[ques.name]">
-                            <div v-for="choice, i in ques.choices">
+                            <div v-for="choice, _ in ques.choices">
                                 <ElRadio style="--el-radio-font-size: 24px;" :value="choice" :label="choice" />
                             </div>
                         </ElRadioGroup>
                     </template>
                     <template v-if="ques.quesType == 'checkbox'">
                         <ElCheckboxGroup v-model="form[ques.name]">
-                            <div v-for="choice, i in ques.choices">
+                            <div v-for="choice, _ in ques.choices">
                                 <ElCheckbox :value="choice" :label="choice" />
                             </div>
                         </ElCheckboxGroup>
                     </template>
                     <template v-if="ques.quesType == 'switch'">
                         <ElSelect v-model="form[ques.name]">
-                            <ElOption v-for="choice, i in ques.choices" :label="choice" :value="choice"></ElOption>
+                            <ElOption v-for="choice, _ in ques.choices" :label="choice" :value="choice"></ElOption>
                         </ElSelect>
+                    </template>
+                    <template v-if="ques.quesType == 'desc'">
+                        <div style="font-size: 18px;" v-html="ques.desc"></div>
+                    </template>
+                    <template v-if="ques.quesType == 'date'">
+                        <div style="width: 100%;">
+                            <ElConfigProvider :locale="locale">
+                                <ElDatePicker v-model="form[ques.name]" format="YYYY/MM/DD" value-format="YYYY-MM-DD"></ElDatePicker>
+                            </ElConfigProvider>
+                        </div>
                     </template>
                 </ElFormItem>
                 <ElDivider />

@@ -35,12 +35,25 @@ interface SwitchQues extends BaseQues {
     readonly choices: string[]
 }
 
-type Ques = TextQues | RadioQues | CheckboxQues | SwitchQues;
+// 单独描述题
+interface DescQues extends BaseQues {
+    readonly quesType: "desc";
+    readonly desc: string
+}
+
+// 日期选择题
+interface DateQues extends BaseQues {
+    readonly quesType: "date";
+}
+
+type Ques = TextQues | RadioQues | CheckboxQues | SwitchQues | DescQues | DateQues;
 const quesAnswerType = {
     text: "",
     radio: "",
     checkbox: [],
-    switch: ""
+    switch: "",
+    desc: "",
+    date: ""
 }
 export { quesAnswerType };
 export type { Ques };

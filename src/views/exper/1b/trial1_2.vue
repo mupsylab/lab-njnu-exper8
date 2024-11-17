@@ -31,6 +31,9 @@ const endTrial = () => {
 
 <template>
     <div>
+        <div class="instr-box">
+            <p>您需要<strong>根据屏幕上呈现的拼音以及下方的释义填写汉字词语，在完成后请按“提交”继续。</strong></p>
+        </div>
         <div class="text-box">
             <div class="text" :style="`--len: ${props.pinyin?.length};`" v-for="p, i in props.pinyin">
                 <div class="pinyin">{{ p }}</div>
@@ -47,6 +50,13 @@ const endTrial = () => {
 </template>
 
 <style scoped>
+.instr-box {
+    margin: 0 0 100px 0;
+}
+p {
+    font-size: 16px;
+    line-height: 28px;
+}
 .text-box {
     display: block;
     text-align: center;

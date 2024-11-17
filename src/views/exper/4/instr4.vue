@@ -6,8 +6,8 @@ import trial4 from './trial4.vue';
     <div class="instr-box">
         <p>您需要对给出的词语进行维度评分，在实验中您会看到以下问题：</p>
         <div class="exper-box">
-            <trial4 title="【老道】可以用于描述某个人的【社交能力】"
-                    desc="社交能力: 用于描述人的人际交往能力"
+            <trial4 title="【词语】可以用于描述某个人的【维度】"
+                    desc="维度定义"
                     optionLabelMin="非常不同意"
                     optionLabelMax="非常同意"
                     :view="true"></trial4>
@@ -28,8 +28,8 @@ import trial4 from './trial4.vue';
 
 <style scoped>
 .exper-box {
-    width: 490px;
-    height: 139px;
+    width: 460px;
+    height: 220px;
     transform-origin: top;
     transform: scale(0.5, 0.5);
 }

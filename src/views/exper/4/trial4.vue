@@ -57,6 +57,7 @@ onMounted(() => {
 <style scoped>
 .trial4-box {
     width: 920px;
+    height: 440px;
     text-align: center;
     user-select: none;
 }
@@ -64,6 +65,10 @@ onMounted(() => {
 .title {
     font-size: 36px;
     line-height: 48px;
+}
+
+.choose {
+    padding: 30px 0 90px 0;
 }
 
 label {
@@ -98,6 +103,7 @@ label:last-child {
 
 label p {
     width: 96px;
+    font-size: 19px;
     text-align: center;
 }
 
@@ -121,6 +127,6 @@ label span {
 .desc {
     font-size: 24px;
     line-height: 36px;
-    font-weight: 100;
+    font-weight: 300;
 }
 </style>

@@ -5,23 +5,20 @@
 <script setup lang="ts">
 import { initJsPsych } from 'jspsych';
 import { onMounted, render, h } from 'vue';
-import { useRoute } from 'vue-router';
 
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 
 import { useCheckBrowserInfo } from "../../store/browserCheck";
 import { useLoaderAssets } from '../../store/loadAssetsToBlob';
 import endExp from "../../components/endExp.vue";
-import Session from '../../utils/session';
-import { getUuid } from '../../utils/random';
 
-const route = useRoute();
 const loader = useLoaderAssets();
 const cbi = useCheckBrowserInfo();
 const jsPsych = initJsPsych({
     display_element: "exp"
 });
 
+const t = false;
 const timeline: object[] = [{
     type: jsPsychHtmlKeyboardResponse,
     choices: ["NO_KEYS"],
@@ -58,12 +55,7 @@ import trial1_1 from './1a/trial1_1.vue';
 import trial1_2 from './1b/trial1_2.vue';
 import questionnaire from '../../components/questionnaire/default.vue';
 import ques from './3/ques.vue';
-import Slider from './3/slider.vue';
 import trial4 from './4/trial4.vue';
-import Instr1a from './1a/instr1a.vue';
-import Instr1b from './1b/instr1b.vue';
-import Instr2 from './2/instr2.vue';
-import Instr3 from './3/instr3.vue';
 import Instr4 from './4/instr4.vue';
 import Instr from './instr.vue';
 import Naodao from '../../utils/naodao';
@@ -75,8 +67,7 @@ timeline.push({
     on_load() {
         render(h(Instr, {
             onEndTrial() {
-                jsPsych.finishTrial({
-                });
+                jsPsych.finishTrial({});
             }
         }), document.querySelector("#box") as Element);
     }
@@ -86,13 +77,6 @@ timeline.push({
 timeline.push({
     timeline: [{
         type: jsPsychHtmlKeyboardResponse,
-        choices: [" "],
-        stimulus: "<div id='box'></div>",
-        on_load() {
-            render(h(Instr1a), document.querySelector("#box") as Element);
-        }
-    }, {
-        type: jsPsychHtmlKeyboardResponse,
         choices: ["NO_KEYS"],
         stimulus: "<div id='box'></div>",
         on_load() {
@@ -101,7 +85,7 @@ timeline.push({
                 onEndTrial(data: string) {
                     jsPsych.finishTrial({
                         word: "老道",
-                        response_desc: data,
+                        value: data,
                         save: true,
                         trial_type_self: "question_trial_1a"
                     });
@@ -110,20 +94,13 @@ timeline.push({
         }
     }],
     conditional_function() {
-        return route.params.type == "1";
+        return t;
     }
 });
 
 // 1b
 timeline.push({
     timeline: [{
-        type: jsPsychHtmlKeyboardResponse,
-        choices: [" "],
-        stimulus: "<div id='box'></div>",
-        on_load() {
-            render(h(Instr1b), document.querySelector("#box") as Element);
-        }
-    }, {
         type: jsPsychHtmlKeyboardResponse,
         choices: ["NO_KEYS"],
         stimulus: "<div id='box'></div>",
@@ -134,7 +111,7 @@ timeline.push({
                 onEndTrial(data: String[]) {
                     jsPsych.finishTrial({
                         pinyin: ["lǎo", "dào"].join(" "),
-                        response_word: data.join(),
+                        value: data.join(),
                         save: true,
                         trial_type_self: "question_trial_1b"
                     });
@@ -143,25 +120,24 @@ timeline.push({
         }
     }],
     conditional_function() {
-        return route.params.type == "2";
+        return !t;
     }
 });
 
 // 2
 timeline.push({
     type: jsPsychHtmlKeyboardResponse,
-    choices: [" "],
-    stimulus: "<div id='box'></div>",
-    on_load() {
-        render(h(Instr2), document.querySelector("#box") as Element);
-    }
-}, {
-    type: jsPsychHtmlKeyboardResponse,
     choices: ["NO_KEYS"],
     stimulus: "<div id='box'></div>",
     on_load() {
         render(h(questionnaire, {
             ques: [
+                {
+                    quesType: "desc",
+                    name: "q0",
+                    title: "",
+                    desc: "您需要根据屏幕上呈现的问题进行选择，选择时请用鼠标点击对应选项即可，在完成后<strong>请按“提交”继续。</strong>"
+                },
                 {
                     quesType: "radio",
                     name: "q1",
@@ -174,7 +150,7 @@ timeline.push({
             ],
             onEndTrial(data) {
                 jsPsych.finishTrial({
-                    word_best_desc: data["q1"],
+                    value: ["老道", "老到", "两者都适合"].indexOf(data["q1"]) + 1,
                     save: true,
                     trial_type_self: "question_trial_2"
                 });
@@ -186,14 +162,6 @@ timeline.push({
 // 3
 timeline.push({
     type: jsPsychHtmlKeyboardResponse,
-    choices: [" "],
-    stimulus: "<div id='box'></div>",
-    on_load() {
-        render(h(Instr3), document.querySelector("#box") as Element);
-    }
-});
-timeline.push({
-    type: jsPsychHtmlKeyboardResponse,
     choices: ["NO_KEYS"],
     stimulus: "<div id='box'></div>",
     on_load() {
@@ -203,10 +171,17 @@ timeline.push({
             questionSubTitle: ["请你对“老道”一词的熟悉程度进行评分", "请你对“老到”一词的熟悉程度进行评分"],
             questionSelectText: ["非常不熟悉", "比较不熟悉", "有点不熟悉", "一般熟悉", "有点熟悉", "比较熟悉", "非常熟悉"],
             onEndTrial(data: { [key: string]: String }) {
-                jsPsych.finishTrial(Object.assign({}, data, {
+                jsPsych.data.write({
+                    value: data["q1_0"],
                     save: true,
                     trial_type_self: "question_trial_3_q1"
-                }));
+                });
+                jsPsych.data.write({
+                    value: data["q1_1"],
+                    save: true,
+                    trial_type_self: "question_trial_3_q2"
+                });
+                jsPsych.finishTrial({});
             }
         }), document.querySelector("#box") as Element);
     }
@@ -216,15 +191,29 @@ timeline.push({
     choices: ["NO_KEYS"],
     stimulus: "<div id='box'></div>",
     on_load() {
-        render(h(Slider, {
-            title: "请你对“老道”和“老到”的相对熟悉度进行选择（滑块越偏向哪一边，越表示你对该词语越熟悉）",
-            leftLabel: "老道",
-            rightLabel: "老到",
-            onEndTrial(data: Number) {
+        render(h(questionnaire, {
+            ques: [
+                {
+                    quesType: "desc",
+                    name: "q0",
+                    title: "",
+                    desc: "您需要根据屏幕上呈现的问题进行选择，选择时请用鼠标点击对应选项即可，在完成后<strong>请按“提交”继续。</strong>"
+                },
+                {
+                    quesType: "radio",
+                    name: "q1",
+                    title: "请你对“老道”、“老到”两个词语的相对熟悉程度进行选择",
+                    choices: ["对“老道”更熟悉", "对“老到”更熟悉", "对两者同样熟悉"],
+                    valid: [
+                        { message: "请选择合适的选项进行提交", required: true }
+                    ]
+                }
+            ],
+            onEndTrial(data) {
                 jsPsych.finishTrial({
-                    value: data,
+                    value: ["老道更熟悉", "老到更熟悉", "两者熟悉程度差不多"].indexOf(data["q1"]) + 1,
                     save: true,
-                    trial_type_self: "question_trial_3_q2"
+                    trial_type_self: "question_trial_3_q3"
                 });
             }
         }), document.querySelector("#box") as Element);
@@ -271,11 +260,60 @@ timeline.push({
         }
     }],
     timeline_variables: jsPsych.randomization.factorial({
-        word: ["老道", "老到"],
+        word: ["老到"],
         dim: ["道德", "能力", "社交能力", "外貌", "社会经济地位"]
     })
 });
 
+timeline.push({
+    type: jsPsychHtmlKeyboardResponse,
+    choices: ["NO_KEYS"],
+    stimulus: "<div id='box'></div>",
+    on_load() {
+        render(h(questionnaire, {
+            ques: [
+                {
+                    quesType: "text",
+                    name: "name",
+                    title: "请输入自己的姓名",
+                    valid: [
+                        { message: "请输入自己的名字", required: true }
+                    ]
+                },
+                {
+                    quesType: "radio",
+                    name: "gender",
+                    title: "请选择你的性别",
+                    choices: ["男", "女"],
+                    valid: [
+                        { message: "请选择你的性别", required: true }
+                    ]
+                },
+                {
+                    quesType: "date",
+                    name: "birthday",
+                    title: "请输入你的生日",
+                    valid: [
+                        { message: "请输入你的生日", required: true }
+                    ]
+                },
+                {
+                    quesType: "radio",
+                    name: "education",
+                    title: "请选择你的学历",
+                    choices: ["小学以下", "小学", "初中", "高中", "大学", "硕士", "博士", "其他"],
+                    valid: [
+                        { message: "请选择你的学历", required: true }
+                    ]
+                }
+            ],
+            onEndTrial(data) {
+                jsPsych.data.get().addToAll(data);
+                jsPsych.finishTrial({ });
+            }
+        }), document.querySelector("#box") as Element);
+    }
+});
 
 const nd = new Naodao();
 nd.getData = () => {
