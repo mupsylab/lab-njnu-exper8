@@ -16,9 +16,12 @@ const inputTextResult = (function() {
 })();
 const inputText = (e: Event, i: number) => {
     const dom = e.target as HTMLInputElement;
-    dom.value = dom.value[dom.value.length - 1];
-
-    inputTextResult[i] = dom.value;
+    if(dom.value.length == 1) {
+        inputTextResult[i] = dom.value;
+    } else {
+        ElMessage.error("一个框请输入一个汉字");
+        inputTextResult[i] = "";
+    }
 }
 const endTrial = () => {
     if (inputTextResult.join("").length == props.pinyin?.length) {
