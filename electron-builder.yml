@@ -1,6 +1,6 @@
 appId: net.mupsy.jsPsychTemplate
 productName: "jsPsych简易实验程序"
-icon: "public/assets/logo/logo_64_64.png"
+icon: "public/assets/logo/logo_256_256.png"
 asar: true
 artifactName: "${productName}-${version}-${platform}-${arch}.${ext}"
 directories:
@@ -19,7 +19,7 @@ asarUnpack:
   - public/**
 win:
   executableName: jsPsych
-  icon: "public/assets/logo/logo_64_64.png"
+  icon: "public/assets/logo/logo_256_256.png"
   target:
     - target: portable
       arch:
@@ -65,11 +65,11 @@ dmg:
     width: 500
     height: 500
 linux:
-  icon: "public/assets/logo/logo_64_64.png"
+  icon: "public/assets/logo/logo_256_256.png"
   target:
     - AppImage
-    - snap
-    - deb
+    # - snap
+    # - deb
   maintainer: mupsy.net
   category: Utility
 appImage:

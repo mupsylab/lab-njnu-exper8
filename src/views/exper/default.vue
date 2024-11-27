@@ -59,6 +59,8 @@ import trial4 from './4/trial4.vue';
 import Instr4 from './4/instr4.vue';
 import Instr from './instr.vue';
 import Naodao from '../../utils/naodao';
+import Session from '../../utils/session';
+import { getUuid } from '../../utils/random';
 
 timeline.push({
     type: jsPsychHtmlKeyboardResponse,
@@ -142,7 +144,7 @@ timeline.push({
                     quesType: "radio",
                     name: "q1",
                     title: "以下哪个词更适合“描述人（做事）老练、周全”",
-                    choices: ["老道", "老到", "两者都适合"],
+                    choices: ["老道", "老到"],
                     valid: [
                         { message: "请选择合适的选项进行提交", required: true }
                     ]
@@ -150,7 +152,7 @@ timeline.push({
             ],
             onEndTrial(data) {
                 jsPsych.finishTrial({
-                    value: ["老道", "老到", "两者都适合"].indexOf(data["q1"]) + 1,
+                    value: ["老道", "老到"].indexOf(data["q1"]) + 1,
                     save: true,
                     trial_type_self: "question_trial_2"
                 });
@@ -182,39 +184,6 @@ timeline.push({
                     trial_type_self: "question_trial_3_q2"
                 });
                 jsPsych.finishTrial({});
-            }
-        }), document.querySelector("#box") as Element);
-    }
-});
-timeline.push({
-    type: jsPsychHtmlKeyboardResponse,
-    choices: ["NO_KEYS"],
-    stimulus: "<div id='box'></div>",
-    on_load() {
-        render(h(questionnaire, {
-            ques: [
-                {
-                    quesType: "desc",
-                    name: "q0",
-                    title: "",
-                    desc: "您需要根据屏幕上呈现的问题进行选择，选择时请用鼠标点击对应选项即可，在完成后<strong>请按“提交”继续。</strong>"
-                },
-                {
-                    quesType: "radio",
-                    name: "q1",
-                    title: "请你对“老道”、“老到”两个词语的相对熟悉程度进行选择",
-                    choices: ["对“老道”更熟悉", "对“老到”更熟悉", "对两者同样熟悉"],
-                    valid: [
-                        { message: "请选择合适的选项进行提交", required: true }
-                    ]
-                }
-            ],
-            onEndTrial(data) {
-                jsPsych.finishTrial({
-                    value: ["老道更熟悉", "老到更熟悉", "两者熟悉程度差不多"].indexOf(data["q1"]) + 1,
-                    save: true,
-                    trial_type_self: "question_trial_3_q3"
-                });
             }
         }), document.querySelector("#box") as Element);
     }
@@ -263,6 +232,40 @@ timeline.push({
         word: ["老到"],
         dim: ["道德", "能力", "社交能力", "外貌", "社会经济地位"]
     })
+});
+
+timeline.push({
+    type: jsPsychHtmlKeyboardResponse,
+    choices: ["NO_KEYS"],
+    stimulus: "<div id='box'></div>",
+    on_load() {
+        render(h(questionnaire, {
+            ques: [
+                {
+                    quesType: "desc",
+                    name: "q0",
+                    title: "",
+                    desc: "您需要根据屏幕上呈现的问题进行选择，选择时请用鼠标点击对应选项即可，在完成后<strong>请按“提交”继续。</strong>"
+                },
+                {
+                    quesType: "radio",
+                    name: "q1",
+                    title: "请你对“老道”、“老到”两个词语的相对熟悉程度进行选择",
+                    choices: ["对“老道”更熟悉", "对“老到”更熟悉"],
+                    valid: [
+                        { message: "请选择合适的选项进行提交", required: true }
+                    ]
+                }
+            ],
+            onEndTrial(data) {
+                jsPsych.finishTrial({
+                    value: ["对“老道”更熟悉", "对“老到”更熟悉"].indexOf(data["q1"]) + 1,
+                    save: true,
+                    trial_type_self: "question_trial_3_q3"
+                });
+            }
+        }), document.querySelector("#box") as Element);
+    }
 });
 
 timeline.push({
@@ -327,8 +330,8 @@ timeline.push({
         jsPsych.data.write(cbi.browser);
         render(h(endExp, {
             onEndTrial() {
-                nd.save()
-                // new Session().offlineSave(jsPsych.data.get().csv(), uuid);
+                // nd.save()
+                new Session().offlineSave(jsPsych.data.get().csv(), getUuid());
             }
         }), document.querySelector("#box") as Element);
     }

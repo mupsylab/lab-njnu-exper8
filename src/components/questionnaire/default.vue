@@ -55,8 +55,8 @@ const formRef = ref<FormInstance>();
     <div class="questionnaire">
         <ElForm ref="formRef" status-icon :rules="rules" :model="form" @submit.prevent label-position="top" size="default">
             <template v-for="ques in propQues">
+                <div class="title">{{ ques.title }}</div>
                 <ElFormItem :prop="ques.name">
-                    <div class="title">{{ ques.title }}</div>
                     <template v-if="ques.quesType == 'text'">
                         <ElInput :name="ques.name" :readonly="ques.readonly ?? false"
                             :show-password="ques.showPassword ?? false" :placeholder="ques.placeholder"
@@ -110,7 +110,7 @@ const formRef = ref<FormInstance>();
 }
 
 .questionnaire .title {
-    height: 48px;
+    margin: 0 0 20px 0;
     font-size: 24px;
     line-height: 1.5em;
 }
